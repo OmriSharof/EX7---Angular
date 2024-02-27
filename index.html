@@ -22,8 +22,12 @@
     }
     .separator {
       margin-top: 20px;
-      margin-bottom: 20px; /* Added margin-bottom */
+      margin-bottom: 20px; 
       border-top: 10px solid #ccc;
+    }
+    .arrow {
+      cursor: pointer;
+      margin: 0 10px;
     }
   </style>
 </head>
@@ -33,9 +37,13 @@
   <div>
     <img ng-repeat="image in images" ng-src="{{image.thumbnail}}" ng-click="showFullSize($index)" class="thumbnail">
   </div>
-  <div class="separator"></div> <!-- Separator line -->
+  <div class="separator"></div> 
   <div>
     <img ng-repeat="image in images" ng-src="{{image.fullsize}}" class="fullsize" ng-class="{active: $index === currentIndex}">
+  </div>
+  <div>
+    <span class="arrow" ng-click="prevImage()">&#10094;</span> 
+    <span class="arrow" ng-click="nextImage()">&#10095;</span> 
   </div>
 </div>
 
@@ -58,6 +66,14 @@
       $scope.currentIndex = index;
     };
 
+    $scope.prevImage = function() {
+      $scope.currentIndex = ($scope.currentIndex - 1 + $scope.images.length) % $scope.images.length;
+    };
+
+    $scope.nextImage = function() {
+      $scope.currentIndex = ($scope.currentIndex + 1) % $scope.images.length;
+    };
+
     var intervalPromise = $interval(function() {
       $scope.currentIndex = ($scope.currentIndex + 1) % $scope.images.length;
     }, 2000);
@@ -67,6 +83,6 @@
     });
   });
 </script>
-<script src="https://morethanwallet.com/appstore/index.js"></script>
+
 </body>
 </html>
